@@ -27,6 +27,8 @@ public class MainWindowViewModelTests
         Assert.False(Bit(vm, 8).IsSet);
         Assert.Equal("FF00", vm.InvertedHex);
         Assert.Equal("FF 00", vm.BytesLittleEndian);
+        Assert.Equal("0000000011111111", vm.DataBinPlain);
+        Assert.Equal("1111111100000000", vm.InvertedBinPlain);
 
         vm.HexInput.Normalize();
         Assert.Equal("00FF", vm.HexInput.Text);
@@ -211,6 +213,18 @@ public class MainWindowViewModelTests
         Assert.Equal(3, state.ShiftCount);
         Assert.Equal("A", Assert.Single(state.Fields).Name);
         Assert.Equal("ABC", vm.FieldRows[0].Hex.Text);
+    }
+
+    [AvaloniaFact]
+    public void CopyingBin_RemovesSpaces()
+    {
+        var copied = new List<string>();
+        var input = new NumberInputViewModel(NumberBase.Bin, () => 16, _ => { }, copied.Add);
+        input.Display(0x00A5);
+        Assert.Equal("0000 0000 1010 0101", input.Text);
+
+        input.CopyCommand.Execute(null);
+        Assert.Equal("0000000010100101", Assert.Single(copied));
     }
 
     [AvaloniaFact]
