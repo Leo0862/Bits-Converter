@@ -20,6 +20,24 @@ public partial class MainWindow : Window, IUiServices
         InitializeComponent();
         // Re-format a number box (e.g. "0x1f" -> "1F") when the user leaves it.
         AddHandler(LostFocusEvent, OnAnyLostFocus, RoutingStrategies.Bubble, handledEventsToo: true);
+        Opened += (_, _) => FitToScreen();
+    }
+
+    /// <summary>
+    /// Height is in device-independent pixels, so with desktop scaling (e.g. 125%) the designed
+    /// height can exceed the screen. Shrink the window to the screen's working area when needed.
+    /// </summary>
+    private void FitToScreen()
+    {
+        if (Screens.ScreenFromWindow(this) is not { } screen) return;
+
+        // Title bar and borders, in DIP
+        var decorations = Math.Max(0, (FrameSize?.Height ?? Height) - Height);
+        var available = screen.WorkingArea.Height / screen.Scaling - decorations;
+        if (Height <= available) return;
+
+        Height = Math.Max(MinHeight, available);
+        Position = Position.WithY(screen.WorkingArea.Y);
     }
 
     private static void OnAnyLostFocus(object? sender, RoutedEventArgs e)
