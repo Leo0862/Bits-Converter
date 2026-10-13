@@ -1,0 +1,199 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Styles.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="BcCardBackground" Color="#F7F7F9" />
+                    <SolidColorBrush x:Key="BcCardBorder" Color="#E1E1E6" />
+                    <SolidColorBrush x:Key="BcValueBackground" Color="#EEEEF2" />
+                    <SolidColorBrush x:Key="BcLine" Color="#C9C9D1" />
+                    <SolidColorBrush x:Key="BcNibbleLine" Color="#85858F" />
+                    <SolidColorBrush x:Key="BcBoundary" Color="#0A5FCC" />
+                    <SolidColorBrush x:Key="BcBoundaryHover" Color="#5C9DF0" />
+                    <SolidColorBrush x:Key="BcCritical" Color="#C42B1C" />
+                    <SolidColorBrush x:Key="BcIcon" Color="#5A5A64" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <SolidColorBrush x:Key="BcCardBackground" Color="#202024" />
+                    <SolidColorBrush x:Key="BcCardBorder" Color="#34343B" />
+                    <SolidColorBrush x:Key="BcValueBackground" Color="#2A2A30" />
+                    <SolidColorBrush x:Key="BcLine" Color="#4A4A53" />
+                    <SolidColorBrush x:Key="BcNibbleLine" Color="#9C9CA8" />
+                    <SolidColorBrush x:Key="BcBoundary" Color="#5AA5FF" />
+                    <SolidColorBrush x:Key="BcBoundaryHover" Color="#2F6FBF" />
+                    <SolidColorBrush x:Key="BcCritical" Color="#FF7A6E" />
+                    <SolidColorBrush x:Key="BcIcon" Color="#B4B4BE" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+            <FontFamily x:Key="MonoFont">Cascadia Mono, Consolas, Menlo, DejaVu Sans Mono, Liberation Mono, monospace</FontFamily>
+            <StreamGeometry x:Key="CopyIcon">M5,4 L13,4 L13,14 L5,14 Z M3,12 L3,2 L11,2</StreamGeometry>
+        </ResourceDictionary>
+    </Styles.Resources>
+
+    <!-- Section card -->
+    <Style Selector="Border.card">
+        <Setter Property="Background" Value="{DynamicResource BcCardBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource BcCardBorder}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="6" />
+        <Setter Property="Padding" Value="12" />
+    </Style>
+
+    <Style Selector="TextBlock.header">
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Opacity" Value="0.75" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style Selector="TextBlock.label">
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0,0,8,0" />
+    </Style>
+
+    <Style Selector="TextBlock.hint">
+        <Setter Property="Opacity" Value="0.65" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style Selector="TextBlock.error">
+        <Setter Property="Foreground" Value="{DynamicResource BcCritical}" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+    </Style>
+
+    <Style Selector="TextBox.mono">
+        <Setter Property="FontFamily" Value="{StaticResource MonoFont}" />
+    </Style>
+    <Style Selector="TextBlock.mono">
+        <Setter Property="FontFamily" Value="{StaticResource MonoFont}" />
+    </Style>
+
+    <!-- Read-only value display -->
+    <Style Selector="Border.value">
+        <Setter Property="Background" Value="{DynamicResource BcValueBackground}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource BcLine}" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Padding" Value="8,4" />
+        <Setter Property="MinHeight" Value="30" />
+    </Style>
+    <Style Selector="Border.value > SelectableTextBlock">
+        <Setter Property="FontFamily" Value="{StaticResource MonoFont}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+    </Style>
+
+    <!-- Invalid input: red border plus tooltip with the message -->
+    <Style Selector="TextBox.invalid /template/ Border#PART_BorderElement">
+        <Setter Property="BorderBrush" Value="{DynamicResource BcCritical}" />
+        <Setter Property="BorderThickness" Value="2" />
+    </Style>
+    <Style Selector="TextBox.invalid:pointerover /template/ Border#PART_BorderElement">
+        <Setter Property="BorderBrush" Value="{DynamicResource BcCritical}" />
+    </Style>
+    <Style Selector="TextBox.invalid:focus /template/ Border#PART_BorderElement">
+        <Setter Property="BorderBrush" Value="{DynamicResource BcCritical}" />
+        <Setter Property="BorderThickness" Value="2" />
+    </Style>
+
+    <!-- Bit cell -->
+    <Style Selector="CheckBox.bit">
+        <Setter Property="MinWidth" Value="0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="8,0,0,0" />
+    </Style>
+
+    <Style Selector="Border.bitcell">
+        <Setter Property="Width" Value="46" />
+        <Setter Property="CornerRadius" Value="4" />
+        <Setter Property="Background" Value="{DynamicResource BcValueBackground}" />
+    </Style>
+
+    <!-- Splitter between two bits -->
+    <Style Selector="Button.splitter">
+        <Setter Property="Width" Value="12" />
+        <Setter Property="MinWidth" Value="0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Setter Property="Cursor" Value="Hand" />
+    </Style>
+    <Style Selector="Button.splitter:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+    <Style Selector="Button.splitter:pressed /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+    <Style Selector="Button.splitter:disabled /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+    <!-- Bit 0 has no splitter but keeps the space so every row lines up -->
+    <Style Selector="Button.splitter.placeholder">
+        <Setter Property="Opacity" Value="0" />
+        <Setter Property="IsHitTestVisible" Value="False" />
+    </Style>
+    <Style Selector="Button.splitter > Rectangle">
+        <Setter Property="Width" Value="1" />
+        <Setter Property="Margin" Value="0,4" />
+        <Setter Property="Fill" Value="{DynamicResource BcLine}" />
+    </Style>
+    <Style Selector="Button.splitter.nibble > Rectangle">
+        <Setter Property="Width" Value="2" />
+        <Setter Property="Fill" Value="{DynamicResource BcNibbleLine}" />
+    </Style>
+    <Style Selector="Button.splitter.boundary > Rectangle">
+        <Setter Property="Width" Value="3" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Fill" Value="{DynamicResource BcBoundary}" />
+    </Style>
+    <Style Selector="Button.splitter:pointerover > Rectangle">
+        <Setter Property="Width" Value="3" />
+        <Setter Property="Fill" Value="{DynamicResource BcBoundaryHover}" />
+    </Style>
+
+    <!-- Small icon button for copying values -->
+    <Style Selector="Button.copy">
+        <Setter Property="Padding" Value="6" />
+        <Setter Property="MinWidth" Value="0" />
+        <Setter Property="Margin" Value="4,0,0,0" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="ToolTip.Tip" Value="Copy" />
+    </Style>
+    <Style Selector="Button.copy:disabled /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="Transparent" />
+    </Style>
+    <Style Selector="Button.copy:disabled > Path">
+        <Setter Property="Opacity" Value="0.3" />
+    </Style>
+    <Style Selector="Button.copy > Path">
+        <Setter Property="Data" Value="{StaticResource CopyIcon}" />
+        <Setter Property="Stroke" Value="{DynamicResource BcIcon}" />
+        <Setter Property="StrokeThickness" Value="1.3" />
+        <Setter Property="Width" Value="16" />
+        <Setter Property="Height" Value="16" />
+    </Style>
+
+    <Style Selector="StackPanel.toolbar > Button">
+        <Setter Property="Margin" Value="0,0,6,0" />
+    </Style>
+
+    <!-- Dec-Bin-Hex table cells -->
+    <Style Selector="Border.tablecell">
+        <Setter Property="BorderBrush" Value="{DynamicResource BcLine}" />
+        <Setter Property="BorderThickness" Value="0,0,0,1" />
+        <Setter Property="Padding" Value="4,2" />
+    </Style>
+    <Style Selector="Border.tablecell > TextBlock">
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="FontFamily" Value="{StaticResource MonoFont}" />
+    </Style>
+</Styles>

@@ -1,0 +1,321 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:BitsConverter.ViewModels"
+        mc:Ignorable="d"
+        d:DesignWidth="880" d:DesignHeight="900"
+        x:Class="BitsConverter.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Title="Bits Converter"
+        Icon="/Assets/app.ico"
+        Width="880" Height="900"
+        MinWidth="640" MinHeight="400"
+        FontSize="14">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+
+    <Window.DataTemplates>
+        <!-- Editable number box with a copy button -->
+        <DataTemplate DataType="vm:NumberInputViewModel">
+            <Grid ColumnDefinitions="*,Auto">
+                <TextBox Classes="mono"
+                         Text="{Binding Text}"
+                         Watermark="{Binding Watermark}"
+                         IsEnabled="{Binding IsEnabled}"
+                         Classes.invalid="{Binding HasError}"
+                         ToolTip.Tip="{Binding Error}"
+                         HorizontalContentAlignment="Center" />
+                <Button Grid.Column="1" Classes="copy" Command="{Binding CopyCommand}" IsEnabled="{Binding IsEnabled}">
+                    <Path />
+                </Button>
+            </Grid>
+        </DataTemplate>
+    </Window.DataTemplates>
+
+    <DockPanel>
+        <!-- Status bar -->
+        <Border DockPanel.Dock="Bottom" Padding="12,4"
+                Background="{DynamicResource BcCardBackground}"
+                BorderBrush="{DynamicResource BcCardBorder}" BorderThickness="0,1,0,0">
+            <TextBlock Classes="hint" Text="{Binding StatusText}" />
+        </Border>
+
+        <ScrollViewer HorizontalScrollBarVisibility="Auto">
+            <StackPanel Margin="12" Spacing="10">
+
+                <!-- ===== Width ===== -->
+                <Border Classes="card" Padding="12,6">
+                    <StackPanel Orientation="Horizontal" Spacing="16">
+                        <TextBlock Classes="header" Text="Width" />
+                        <ItemsControl ItemsSource="{Binding WidthOptions}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal" Spacing="4" />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="vm:WidthOptionViewModel">
+                                    <RadioButton GroupName="Width" Content="{Binding Label}" IsChecked="{Binding IsSelected}" />
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
+
+                <!-- ===== Bit grid ===== -->
+                <Border Classes="card">
+                    <StackPanel Spacing="6">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <TextBlock Classes="header" Text="Binary" />
+                            <TextBlock Grid.Column="1" Classes="hint"
+                                       Text="Click the line between two bits to split or merge fields" />
+                        </Grid>
+                        <ItemsControl ItemsSource="{Binding ByteRows}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate x:DataType="vm:ByteRowViewModel">
+                                    <Grid ColumnDefinitions="64,Auto,*" Margin="0,2">
+                                        <TextBlock Classes="mono hint" Text="{Binding Label}" VerticalAlignment="Center" />
+                                        <ItemsControl Grid.Column="1" ItemsSource="{Binding Bits}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel Orientation="Horizontal" />
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate x:DataType="vm:BitViewModel">
+                                                    <StackPanel Orientation="Horizontal">
+                                                        <Border Classes="bitcell" ToolTip.Tip="{Binding ToolTip}">
+                                                            <Border CornerRadius="4" Padding="0,2" Background="{Binding Fill}">
+                                                                <StackPanel>
+                                                                    <TextBlock Text="{Binding Index}" FontSize="12"
+                                                                               HorizontalAlignment="Center" Opacity="0.8" />
+                                                                    <CheckBox Classes="bit" IsChecked="{Binding IsSet}" />
+                                                                </StackPanel>
+                                                            </Border>
+                                                        </Border>
+                                                        <Button Classes="splitter"
+                                                                Classes.nibble="{Binding IsNibbleEdge}"
+                                                                Classes.boundary="{Binding IsBoundary}"
+                                                                Classes.placeholder="{Binding !HasSplitter}"
+                                                                IsEnabled="{Binding CanToggle}"
+                                                                Command="{Binding ToggleSplitCommand}"
+                                                                ToolTip.Tip="{Binding SplitterToolTip}">
+                                                            <Rectangle />
+                                                        </Button>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                        <TextBlock Grid.Column="2" Classes="mono" Margin="12,0,0,0" VerticalAlignment="Center"
+                                                   Text="{Binding Hex, StringFormat='0x{0}'}" Opacity="0.75" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
+                </Border>
+
+                <!-- ===== Inputs and operations ===== -->
+                <Border Classes="card">
+                    <StackPanel Spacing="10">
+                        <Grid ColumnDefinitions="Auto,150,16,Auto,130,16,Auto,*" RowDefinitions="Auto,Auto">
+                            <TextBlock Classes="label" Text="DEC" />
+                            <ContentControl Grid.Column="1" Content="{Binding DecInput}" />
+                            <TextBlock Grid.Column="3" Classes="label" Text="HEX" />
+                            <ContentControl Grid.Column="4" Content="{Binding HexInput}" />
+                            <TextBlock Grid.Column="6" Classes="label" Text="BIN" />
+                            <ContentControl Grid.Column="7" Content="{Binding BinInput}" />
+
+                            <TextBlock Grid.Row="1" Grid.Column="1" Classes="error" Text="{Binding DecInput.Error}" IsVisible="{Binding DecInput.HasError}" />
+                            <TextBlock Grid.Row="1" Grid.Column="4" Classes="error" Text="{Binding HexInput.Error}" IsVisible="{Binding HexInput.HasError}" />
+                            <TextBlock Grid.Row="1" Grid.Column="7" Classes="error" Text="{Binding BinInput.Error}" IsVisible="{Binding BinInput.HasError}" />
+                        </Grid>
+
+                        <WrapPanel>
+                            <StackPanel Classes="toolbar" Orientation="Horizontal" Margin="0,0,16,4">
+                                <Button Content="Set All" Command="{Binding SetAllCommand}" />
+                                <Button Content="Clear All" Command="{Binding ClearAllCommand}" />
+                                <Button Content="Invert" Command="{Binding InvertCommand}" />
+                            </StackPanel>
+                            <StackPanel Classes="toolbar" Orientation="Horizontal" Margin="0,0,0,4">
+                                <Button Content="&lt;&lt;" Command="{Binding ShiftLeftCommand}" ToolTip.Tip="Logical shift left" />
+                                <Button Content="&gt;&gt;" Command="{Binding ShiftRightCommand}" ToolTip.Tip="Logical shift right" />
+                                <Button Content="ROL" Command="{Binding RotateLeftCommand}" ToolTip.Tip="Rotate left" />
+                                <Button Content="ROR" Command="{Binding RotateRightCommand}" ToolTip.Tip="Rotate right" />
+                                <TextBlock Classes="label" Text="by" Margin="4,0,6,0" />
+                                <NumericUpDown Value="{Binding ShiftCount}" Minimum="1" Maximum="{Binding MaxShift}"
+                                               Increment="1" FormatString="0" Width="110" />
+                            </StackPanel>
+                        </WrapPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- ===== Data ===== -->
+                <Border Classes="card">
+                    <Grid ColumnDefinitions="Auto,*,Auto,2*,Auto,*,Auto" RowDefinitions="Auto,Auto,Auto,Auto"
+                          ColumnSpacing="0" RowSpacing="6">
+                        <TextBlock Grid.Column="1" Classes="header" Text="HEX" HorizontalAlignment="Center" />
+                        <TextBlock Grid.Column="3" Classes="header" Text="BIN" HorizontalAlignment="Center" />
+                        <TextBlock Grid.Column="5" Classes="header" Text="DEC" HorizontalAlignment="Center" />
+
+                        <TextBlock Grid.Row="1" Classes="label" Text="Data" />
+                        <Border Grid.Row="1" Grid.Column="1" Classes="value"><SelectableTextBlock Text="{Binding DataHex}" /></Border>
+                        <Button Grid.Row="1" Grid.Column="2" Classes="copy" Command="{Binding CopyCommand}" CommandParameter="{Binding DataHex}"><Path /></Button>
+                        <Border Grid.Row="1" Grid.Column="3" Classes="value"><SelectableTextBlock Text="{Binding DataBin}" /></Border>
+                        <Button Grid.Row="1" Grid.Column="4" Classes="copy" Command="{Binding CopyCommand}" CommandParameter="{Binding DataBin}"><Path /></Button>
+                        <Border Grid.Row="1" Grid.Column="5" Classes="value"><SelectableTextBlock Text="{Binding DataDec}" /></Border>
+                        <Button Grid.Row="1" Grid.Column="6" Classes="copy" Command="{Binding CopyCommand}" CommandParameter="{Binding DataDec}"><Path /></Button>
+
+                        <TextBlock Grid.Row="2" Classes="label" Text="Inverted Data" />
+                        <Border Grid.Row="2" Grid.Column="1" Classes="value"><SelectableTextBlock Text="{Binding InvertedHex}" /></Border>
+                        <Button Grid.Row="2" Grid.Column="2" Classes="copy" Command="{Binding CopyCommand}" CommandParameter="{Binding InvertedHex}"><Path /></Button>
+                        <Border Grid.Row="2" Grid.Column="3" Classes="value"><SelectableTextBlock Text="{Binding InvertedBin}" /></Border>
+                        <Button Grid.Row="2" Grid.Column="4" Classes="copy" Command="{Binding CopyCommand}" CommandParameter="{Binding InvertedBin}"><Path /></Button>
+                        <Border Grid.Row="2" Grid.Column="5" Classes="value"><SelectableTextBlock Text="{Binding InvertedDec}" /></Border>
+                        <Button Grid.Row="2" Grid.Column="6" Classes="copy" Command="{Binding CopyCommand}" CommandParameter="{Binding InvertedDec}"><Path /></Button>
+
+                        <TextBlock Grid.Row="3" Classes="label" Text="Bytes" />
+                        <Grid Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="6" ColumnDefinitions="Auto,*,Auto,16,Auto,*,Auto">
+                            <TextBlock Classes="label hint" Text="Little-Endian" />
+                            <Border Grid.Column="1" Classes="value"><SelectableTextBlock Text="{Binding BytesLittleEndian}" /></Border>
+                            <Button Grid.Column="2" Classes="copy" Command="{Binding CopyCommand}" CommandParameter="{Binding BytesLittleEndian}"><Path /></Button>
+                            <TextBlock Grid.Column="4" Classes="label hint" Text="Big-Endian" />
+                            <Border Grid.Column="5" Classes="value"><SelectableTextBlock Text="{Binding BytesBigEndian}" /></Border>
+                            <Button Grid.Column="6" Classes="copy" Command="{Binding CopyCommand}" CommandParameter="{Binding BytesBigEndian}"><Path /></Button>
+                        </Grid>
+                    </Grid>
+                </Border>
+
+                <!-- ===== Bit fields ===== -->
+                <Border Classes="card">
+                    <StackPanel Spacing="8">
+                        <Grid ColumnDefinitions="Auto,*,Auto,Auto,Auto,Auto" ColumnSpacing="6">
+                            <TextBlock Classes="header" Text="Bit Fields" Margin="0,0,6,0" />
+                            <TextBox Grid.Column="1" Classes="mono"
+                                     Text="{Binding FieldLayoutText}"
+                                     Classes.invalid="{Binding HasFieldLayoutError}"
+                                     Watermark="e.g. OPCODE[15:10], RS[9:3], [2:0]">
+                                <TextBox.KeyBindings>
+                                    <KeyBinding Gesture="Enter" Command="{Binding ApplyFieldLayoutCommand}" />
+                                </TextBox.KeyBindings>
+                            </TextBox>
+                            <Button Grid.Column="2" Content="Apply" Command="{Binding ApplyFieldLayoutCommand}" />
+                            <Button Grid.Column="3" Content="Clear" Command="{Binding ClearFieldsCommand}" />
+                            <Button Grid.Column="4" Content="Load Preset…" Command="{Binding LoadPresetCommand}" />
+                            <Button Grid.Column="5" Content="Save Preset…" Command="{Binding SavePresetCommand}" />
+                        </Grid>
+                        <TextBlock Classes="error" Text="{Binding FieldLayoutError}" IsVisible="{Binding HasFieldLayoutError}" />
+
+                        <TextBlock Classes="hint" IsVisible="{Binding !HasFields}"
+                                   Text="No fields defined. Click between two bits above, or type a layout such as 15:10, 9:3, 2:0 and press Apply." />
+
+                        <StackPanel IsVisible="{Binding HasFields}" Spacing="4">
+                            <Grid Margin="0,0,0,2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="24" />
+                                    <ColumnDefinition Width="140" />
+                                    <ColumnDefinition Width="80" />
+                                    <ColumnDefinition Width="64" />
+                                    <ColumnDefinition Width="120" />
+                                    <ColumnDefinition Width="140" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="1" Classes="header" Text="Name" Margin="4,0" />
+                                <TextBlock Grid.Column="2" Classes="header" Text="Range" Margin="6,0,0,0" />
+                                <TextBlock Grid.Column="3" Classes="header" Text="Bits" />
+                                <TextBlock Grid.Column="4" Classes="header" Text="HEX" HorizontalAlignment="Center" />
+                                <TextBlock Grid.Column="5" Classes="header" Text="DEC" HorizontalAlignment="Center" />
+                                <TextBlock Grid.Column="6" Classes="header" Text="BIN" HorizontalAlignment="Center" />
+                            </Grid>
+                            <ItemsControl ItemsSource="{Binding FieldRows}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="vm:FieldRowViewModel">
+                                        <Grid Margin="0,2">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="24" />
+                                                <ColumnDefinition Width="140" />
+                                                <ColumnDefinition Width="80" />
+                                                <ColumnDefinition Width="64" />
+                                                <ColumnDefinition Width="120" />
+                                                <ColumnDefinition Width="140" />
+                                                <ColumnDefinition Width="*" />
+                                            </Grid.ColumnDefinitions>
+                                            <Border Width="16" Height="16" CornerRadius="3" VerticalAlignment="Center"
+                                                    Background="{Binding Swatch}"
+                                                    BorderBrush="{DynamicResource BcLine}" BorderThickness="1" />
+                                            <TextBox Grid.Column="1" Margin="4,0" Text="{Binding Name}"
+                                                     Watermark="{Binding NameWatermark}"
+                                                     IsEnabled="{Binding CanRename}"
+                                                     Classes.invalid="{Binding HasNameError}"
+                                                     ToolTip.Tip="{Binding NameError}" />
+                                            <StackPanel Grid.Column="2" Margin="6,0,0,0" VerticalAlignment="Center" ToolTip.Tip="{Binding StatusToolTip}">
+                                                <TextBlock Classes="mono" Text="{Binding RangeText}" />
+                                                <TextBlock Classes="error" Text="out of range" IsVisible="{Binding IsOutOfRange}" />
+                                            </StackPanel>
+                                            <TextBlock Grid.Column="3" Classes="hint" Text="{Binding BitCountText}" VerticalAlignment="Center" />
+                                            <ContentControl Grid.Column="4" Margin="0,0,6,0" Content="{Binding Hex}" />
+                                            <ContentControl Grid.Column="5" Margin="0,0,6,0" Content="{Binding Dec}" />
+                                            <ContentControl Grid.Column="6" Content="{Binding Bin}" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- ===== Dec-Bin-Hex table ===== -->
+                <Expander Header="Dec-Bin-Hex Table" IsExpanded="{Binding IsTableExpanded}"
+                          HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                    <Grid ColumnDefinitions="*,24,*">
+                        <Grid.Styles>
+                            <Style Selector="Grid.hextable > TextBlock">
+                                <Setter Property="HorizontalAlignment" Value="Center" />
+                                <Setter Property="FontWeight" Value="SemiBold" />
+                            </Style>
+                        </Grid.Styles>
+                        <StackPanel>
+                            <Grid Classes="hextable" ColumnDefinitions="*,*,*">
+                                <TextBlock Text="DEC" />
+                                <TextBlock Grid.Column="1" Text="BIN" />
+                                <TextBlock Grid.Column="2" Text="HEX" />
+                            </Grid>
+                            <ItemsControl ItemsSource="{Binding HexTableLow}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="vm:HexTableRow">
+                                        <Grid ColumnDefinitions="*,*,*">
+                                            <Border Classes="tablecell"><TextBlock Text="{Binding Dec}" /></Border>
+                                            <Border Grid.Column="1" Classes="tablecell"><TextBlock Text="{Binding Bin}" /></Border>
+                                            <Border Grid.Column="2" Classes="tablecell"><TextBlock Text="{Binding Hex}" /></Border>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2">
+                            <Grid Classes="hextable" ColumnDefinitions="*,*,*">
+                                <TextBlock Text="DEC" />
+                                <TextBlock Grid.Column="1" Text="BIN" />
+                                <TextBlock Grid.Column="2" Text="HEX" />
+                            </Grid>
+                            <ItemsControl ItemsSource="{Binding HexTableHigh}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate x:DataType="vm:HexTableRow">
+                                        <Grid ColumnDefinitions="*,*,*">
+                                            <Border Classes="tablecell"><TextBlock Text="{Binding Dec}" /></Border>
+                                            <Border Grid.Column="1" Classes="tablecell"><TextBlock Text="{Binding Bin}" /></Border>
+                                            <Border Grid.Column="2" Classes="tablecell"><TextBlock Text="{Binding Hex}" /></Border>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Grid>
+                </Expander>
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+</Window>

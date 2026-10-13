@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F051A4CE-CD3D-4B60-9C08-FEC058E544A9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitsConverter.Core", "src\BitsConverter.Core\BitsConverter.Core.csproj", "{F9A8C391-7512-4477-8C5F-DC0CFF881DEB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{5709F078-5F9D-4E40-936C-552E6B869E17}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitsConverter.Core.Tests", "tests\BitsConverter.Core.Tests\BitsConverter.Core.Tests.csproj", "{AD57D459-FB31-458F-8A70-0699558E7ADF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitsConverter", "src\BitsConverter\BitsConverter.csproj", "{DD0AC26B-7ECD-4E99-B56D-9188E2689AFF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BitsConverter.Tests", "tests\BitsConverter.Tests\BitsConverter.Tests.csproj", "{561A5E20-6B8F-4EAE-A4E5-D3E2C0AE2B22}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F9A8C391-7512-4477-8C5F-DC0CFF881DEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9A8C391-7512-4477-8C5F-DC0CFF881DEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9A8C391-7512-4477-8C5F-DC0CFF881DEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9A8C391-7512-4477-8C5F-DC0CFF881DEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD57D459-FB31-458F-8A70-0699558E7ADF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD57D459-FB31-458F-8A70-0699558E7ADF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD57D459-FB31-458F-8A70-0699558E7ADF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD57D459-FB31-458F-8A70-0699558E7ADF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD0AC26B-7ECD-4E99-B56D-9188E2689AFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD0AC26B-7ECD-4E99-B56D-9188E2689AFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD0AC26B-7ECD-4E99-B56D-9188E2689AFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD0AC26B-7ECD-4E99-B56D-9188E2689AFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{561A5E20-6B8F-4EAE-A4E5-D3E2C0AE2B22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{561A5E20-6B8F-4EAE-A4E5-D3E2C0AE2B22}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{561A5E20-6B8F-4EAE-A4E5-D3E2C0AE2B22}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{561A5E20-6B8F-4EAE-A4E5-D3E2C0AE2B22}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F9A8C391-7512-4477-8C5F-DC0CFF881DEB} = {F051A4CE-CD3D-4B60-9C08-FEC058E544A9}
+		{AD57D459-FB31-458F-8A70-0699558E7ADF} = {5709F078-5F9D-4E40-936C-552E6B869E17}
+		{DD0AC26B-7ECD-4E99-B56D-9188E2689AFF} = {F051A4CE-CD3D-4B60-9C08-FEC058E544A9}
+		{561A5E20-6B8F-4EAE-A4E5-D3E2C0AE2B22} = {5709F078-5F9D-4E40-936C-552E6B869E17}
+	EndGlobalSection
+EndGlobal
