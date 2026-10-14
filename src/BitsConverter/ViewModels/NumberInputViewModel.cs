@@ -79,7 +79,9 @@ public sealed partial class NumberInputViewModel : ObservableObject
     [RelayCommand]
     private void Copy()
     {
-        if (!HasError && IsEnabled) _copy(Format(_value));
+        if (HasError || !IsEnabled) return;
+        var text = Format(_value, group: false);
+        _copy(Base == NumberBase.Hex ? "0x" + text : text);
     }
 
     private void Parse()
@@ -104,10 +106,10 @@ public sealed partial class NumberInputViewModel : ObservableObject
         }
     }
 
-    private string Format(uint value) => Base switch
+    private string Format(uint value, bool group = true) => Base switch
     {
         NumberBase.Hex => NumberFormatter.ToHex(value, _width()),
-        NumberBase.Bin => NumberFormatter.ToBin(value, _width()),
+        NumberBase.Bin => NumberFormatter.ToBin(value, _width(), group),
         _ => NumberFormatter.ToDec(value, _width()),
     };
 

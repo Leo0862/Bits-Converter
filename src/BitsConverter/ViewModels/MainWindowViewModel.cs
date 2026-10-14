@@ -109,6 +109,11 @@ public sealed partial class MainWindowViewModel : ObservableObject
     public string DataDec => NumberFormatter.ToDec(_value, Width);
     public string InvertedHex => NumberFormatter.ToHex(BitMath.Invert(_value, Width), Width);
     public string InvertedBin => NumberFormatter.ToBin(BitMath.Invert(_value, Width), Width);
+    // Copy forms: HEX with a 0x prefix, BIN without the nibble separators, so they paste as literals.
+    public string DataHexCopy => "0x" + DataHex;
+    public string InvertedHexCopy => "0x" + InvertedHex;
+    public string DataBinPlain => NumberFormatter.ToBin(_value, Width, group: false);
+    public string InvertedBinPlain => NumberFormatter.ToBin(BitMath.Invert(_value, Width), Width, group: false);
     public string InvertedDec => NumberFormatter.ToDec(BitMath.Invert(_value, Width), Width);
     public string BytesLittleEndian => NumberFormatter.ToBytes(_value, Width, littleEndian: true);
     public string BytesBigEndian => NumberFormatter.ToBytes(_value, Width, littleEndian: false);
@@ -144,10 +149,14 @@ public sealed partial class MainWindowViewModel : ObservableObject
 
         OnPropertyChanged(nameof(Value));
         OnPropertyChanged(nameof(DataHex));
+        OnPropertyChanged(nameof(DataHexCopy));
         OnPropertyChanged(nameof(DataBin));
+        OnPropertyChanged(nameof(DataBinPlain));
         OnPropertyChanged(nameof(DataDec));
         OnPropertyChanged(nameof(InvertedHex));
+        OnPropertyChanged(nameof(InvertedHexCopy));
         OnPropertyChanged(nameof(InvertedBin));
+        OnPropertyChanged(nameof(InvertedBinPlain));
         OnPropertyChanged(nameof(InvertedDec));
         OnPropertyChanged(nameof(BytesLittleEndian));
         OnPropertyChanged(nameof(BytesBigEndian));
