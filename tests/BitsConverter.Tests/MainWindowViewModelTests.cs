@@ -28,6 +28,8 @@ public class MainWindowViewModelTests
         Assert.Equal("FF00", vm.InvertedHex);
         Assert.Equal("FF 00", vm.BytesLittleEndian);
         Assert.Equal("0000000011111111", vm.DataBinPlain);
+        Assert.Equal("0x00FF", vm.DataHexCopy);
+        Assert.Equal("0xFF00", vm.InvertedHexCopy);
         Assert.Equal("1111111100000000", vm.InvertedBinPlain);
 
         vm.HexInput.Normalize();
@@ -225,6 +227,21 @@ public class MainWindowViewModelTests
 
         input.CopyCommand.Execute(null);
         Assert.Equal("0000000010100101", Assert.Single(copied));
+    }
+
+    [AvaloniaFact]
+    public void CopyingHex_AddsPrefix()
+    {
+        var copied = new List<string>();
+        var hex = new NumberInputViewModel(NumberBase.Hex, () => 16, _ => { }, copied.Add);
+        var dec = new NumberInputViewModel(NumberBase.Dec, () => 16, _ => { }, copied.Add);
+        hex.Display(0x00A5);
+        dec.Display(0x00A5);
+        Assert.Equal("00A5", hex.Text);
+
+        hex.CopyCommand.Execute(null);
+        dec.CopyCommand.Execute(null);
+        Assert.Equal(["0x00A5", "165"], copied);
     }
 
     [AvaloniaFact]

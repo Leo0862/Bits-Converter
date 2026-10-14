@@ -79,7 +79,9 @@ public sealed partial class NumberInputViewModel : ObservableObject
     [RelayCommand]
     private void Copy()
     {
-        if (!HasError && IsEnabled) _copy(Format(_value, group: false));
+        if (HasError || !IsEnabled) return;
+        var text = Format(_value, group: false);
+        _copy(Base == NumberBase.Hex ? "0x" + text : text);
     }
 
     private void Parse()
