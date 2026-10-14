@@ -21,7 +21,8 @@
 | UI | Avalonia 11.3.x，Fluent theme，跟隨系統淺色 / 深色 |
 | MVVM | CommunityToolkit.Mvvm 8.4.x（source generator） |
 | 測試 | xUnit：`BitsConverter.Core` 邏輯測試；Avalonia.Headless 的 ViewModel 測試 |
-| CI | GitHub Actions：build + test；發佈 win-x64 / linux-x64 / osx-x64 / osx-arm64 single-file self-contained 執行檔 |
+| CI | GitHub Actions：build + test；發佈 win-x64 / linux-x64 / osx-x64 / osx-arm64 single-file self-contained 執行檔（裁剪＋壓縮，約 20 MB） |
+| JSON | System.Text.Json source generator（`JsonSerializerContext`），裁剪後仍可正常存取設定與 Preset |
 | 介面語言 | 英文 |
 
 ## 3. 專案結構

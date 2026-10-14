@@ -27,24 +27,25 @@ public sealed class AppState
     public int ShiftCount { get; set; } = 1;
 }
 
+// Source-generated metadata keeps serialization working when the app is trimmed.
+[JsonSourceGenerationOptions(
+    PropertyNamingPolicy = JsonKnownNamingPolicy.CamelCase,
+    WriteIndented = true,
+    ReadCommentHandling = JsonCommentHandling.Skip,
+    AllowTrailingCommas = true)]
+[JsonSerializable(typeof(FieldPreset))]
+[JsonSerializable(typeof(AppState))]
+internal sealed partial class StateJsonContext : JsonSerializerContext;
+
 public static class StateSerializer
 {
-    private static readonly JsonSerializerOptions Options = new()
-    {
-        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-        WriteIndented = true,
-        ReadCommentHandling = JsonCommentHandling.Skip,
-        AllowTrailingCommas = true,
-        DefaultIgnoreCondition = JsonIgnoreCondition.Never,
-    };
-
     public static List<FieldDto> ToDto(IEnumerable<BitField> fields) =>
         FieldLayout.Sort(fields).Select(f => new FieldDto { Name = f.Name, Msb = f.Msb, Lsb = f.Lsb }).ToList();
 
     public static IReadOnlyList<BitField> FromDto(IEnumerable<FieldDto>? fields) =>
         FieldLayout.Sort((fields ?? []).Select(f => new BitField(f.Msb, f.Lsb, f.Name?.Trim() ?? string.Empty)));
 
-    public static string SerializePreset(FieldPreset preset) => JsonSerializer.Serialize(preset, Options);
+    public static string SerializePreset(FieldPreset preset) => JsonSerializer.Serialize(preset, StateJsonContext.Default.FieldPreset);
 
     public static bool TryDeserializePreset(string json, out FieldPreset preset, out IReadOnlyList<BitField> fields, out string error)
     {
@@ -52,7 +53,7 @@ public static class StateSerializer
         fields = [];
         try
         {
-            preset = JsonSerializer.Deserialize<FieldPreset>(json, Options) ?? throw new JsonException("Empty document");
+            preset = JsonSerializer.Deserialize(json, StateJsonContext.Default.FieldPreset) ?? throw new JsonException("Empty document");
         }
         catch (JsonException ex)
         {
@@ -73,7 +74,7 @@ public static class StateSerializer
         return true;
     }
 
-    public static string SerializeState(AppState state) => JsonSerializer.Serialize(state, Options);
+    public static string SerializeState(AppState state) => JsonSerializer.Serialize(state, StateJsonContext.Default.AppState);
 
     /// <summary>Reads saved state; invalid parts fall back to defaults instead of failing.</summary>
     public static AppState DeserializeStateOrDefault(string? json)
@@ -81,7 +82,7 @@ public static class StateSerializer
         AppState state;
         try
         {
-            state = string.IsNullOrWhiteSpace(json) ? new AppState() : JsonSerializer.Deserialize<AppState>(json, Options) ?? new AppState();
+            state = string.IsNullOrWhiteSpace(json) ? new AppState() : JsonSerializer.Deserialize(json, StateJsonContext.Default.AppState) ?? new AppState();
         }
         catch (JsonException)
         {

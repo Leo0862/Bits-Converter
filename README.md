@@ -57,6 +57,8 @@ dotnet publish src/BitsConverter -c Release -r win-x64 --self-contained -p:Publi
 ```
 
 Other runtime identifiers: `linux-x64`, `osx-x64`, `osx-arm64`.
+Self-contained publishes are trimmed and the single-file bundle is compressed (about 20 MB instead of 85 MB on linux-x64).
+Settings and presets use source-generated JSON serialization so they keep working after trimming.
 Pre-built single-file executables are produced by the GitHub Actions workflow (see the run's artifacts, or Releases for `v*` tags).
 
 ## Project layout
