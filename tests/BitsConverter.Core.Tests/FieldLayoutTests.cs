@@ -226,7 +226,7 @@ public class StateSerializerTests
         Assert.Equal(32, state.Width);
         Assert.Equal(0xDEADBEEFu, state.Value);
         Assert.True(state.ShowTable);
-        Assert.True(state.ShowData); // default when not saved
+        Assert.False(state.ShowData); // default when not saved
         Assert.Equal(4, state.ShiftCount);
         Assert.Equal([new BitField(31, 16, "HI")], StateSerializer.FromDto(state.Fields));
     }

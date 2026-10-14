@@ -149,7 +149,7 @@ Byte 陣列列：
 
 ### 4.8 可隱藏區塊
 
-- **Data**（4.3 的顯示區）：放在 Bit Fields 下方，可展開／收合，預設展開。
+- **Data**（4.3 的顯示區）：放在 Bit Fields 下方，可展開／收合，預設收合。
 - **Dec-Bin-Hex 對照表**：見下節，預設收合。
 - 兩者的展開狀態都會自動儲存。
 
@@ -196,7 +196,7 @@ Byte 陣列列：
 │ ■ OP     [15:10]  6   HEX[3F]⧉  DEC[63]⧉  BIN[111111]⧉        │
 │ ■        [9:3]    7   ...                                      │
 ├───────────────────────────────────────────────────────────────┤
-│ ▾ Data (collapsible, expanded by default)                      │
+│ ▾ Data (collapsible, collapsed by default)                     │
 │            HEX          BIN                    DEC             │
 │ Data       00FF ⧉       0000 0000 1111 1111 ⧉  255 ⧉           │
 │ Inverted   FF00 ⧉       1111 1111 0000 0000 ⧉  65280 ⧉         │

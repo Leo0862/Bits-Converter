@@ -94,7 +94,7 @@ public sealed partial class MainWindowViewModel : ObservableObject
     private bool _isTableExpanded;
 
     [ObservableProperty]
-    private bool _isDataExpanded = true;
+    private bool _isDataExpanded;
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(HasFieldLayoutError))]
