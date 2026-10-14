@@ -46,6 +46,7 @@ public sealed partial class MainWindowViewModel : ObservableObject
         BinInput = new NumberInputViewModel(NumberBase.Bin, () => Width, ApplyValue, CopyText);
 
         _isTableExpanded = state.ShowTable;
+        _isDataExpanded = state.ShowData;
         _width = BitMath.IsSupportedWidth(state.Width) ? state.Width : 8;
         _shiftCount = Math.Clamp(state.ShiftCount, 1, _width - 1);
         _fields = FieldLayout.Sort(StateSerializer.FromDto(state.Fields));
@@ -93,6 +94,9 @@ public sealed partial class MainWindowViewModel : ObservableObject
     private bool _isTableExpanded;
 
     [ObservableProperty]
+    private bool _isDataExpanded = true;
+
+    [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(HasFieldLayoutError))]
     private string? _fieldLayoutError;
 
@@ -127,6 +131,7 @@ public sealed partial class MainWindowViewModel : ObservableObject
         Value = _value,
         Fields = StateSerializer.ToDto(_fields),
         ShowTable = IsTableExpanded,
+        ShowData = IsDataExpanded,
         ShiftCount = ShiftCount,
     };
 

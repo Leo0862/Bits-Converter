@@ -24,6 +24,7 @@ public sealed class AppState
     public uint Value { get; set; }
     public List<FieldDto> Fields { get; set; } = [];
     public bool ShowTable { get; set; }
+    public bool ShowData { get; set; } = true;
     public int ShiftCount { get; set; } = 1;
 }
 
