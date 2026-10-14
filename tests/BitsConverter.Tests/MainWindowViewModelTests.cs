@@ -205,6 +205,7 @@ public class MainWindowViewModelTests
             Width = 24,
             Value = 0xABCDEF,
             ShowTable = true,
+            ShowData = false,
             ShiftCount = 3,
             Fields = [new FieldDto { Name = "A", Msb = 23, Lsb = 12 }],
         });
@@ -213,6 +214,7 @@ public class MainWindowViewModelTests
         Assert.Equal(24, state.Width);
         Assert.Equal(0xABCDEFu, state.Value);
         Assert.True(state.ShowTable);
+        Assert.False(state.ShowData);
         Assert.Equal(3, state.ShiftCount);
         Assert.Equal("A", Assert.Single(state.Fields).Name);
         Assert.Equal("A BC", vm.FieldRows[0].Hex.Text);

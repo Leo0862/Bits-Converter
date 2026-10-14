@@ -153,42 +153,6 @@
                     </StackPanel>
                 </Border>
 
-                <!-- ===== Data ===== -->
-                <Border Classes="card">
-                    <Grid ColumnDefinitions="Auto,*,Auto,2*,Auto,*,Auto" RowDefinitions="Auto,Auto,Auto,Auto"
-                          ColumnSpacing="0" RowSpacing="6">
-                        <TextBlock Grid.Column="1" Classes="header" Text="HEX" HorizontalAlignment="Center" />
-                        <TextBlock Grid.Column="3" Classes="header" Text="BIN" HorizontalAlignment="Center" />
-                        <TextBlock Grid.Column="5" Classes="header" Text="DEC" HorizontalAlignment="Center" />
-
-                        <TextBlock Grid.Row="1" Classes="label" Text="Data" />
-                        <Border Grid.Row="1" Grid.Column="1" Classes="value"><SelectableTextBlock Text="{Binding DataHex}" /></Border>
-                        <Button Grid.Row="1" Grid.Column="2" Classes="copy" Command="{Binding CopyCommand}" CommandParameter="{Binding DataHexCopy}"><Path /></Button>
-                        <Border Grid.Row="1" Grid.Column="3" Classes="value"><SelectableTextBlock Text="{Binding DataBin}" /></Border>
-                        <Button Grid.Row="1" Grid.Column="4" Classes="copy" Command="{Binding CopyCommand}" CommandParameter="{Binding DataBinPlain}"><Path /></Button>
-                        <Border Grid.Row="1" Grid.Column="5" Classes="value"><SelectableTextBlock Text="{Binding DataDec}" /></Border>
-                        <Button Grid.Row="1" Grid.Column="6" Classes="copy" Command="{Binding CopyCommand}" CommandParameter="{Binding DataDec}"><Path /></Button>
-
-                        <TextBlock Grid.Row="2" Classes="label" Text="Inverted Data" />
-                        <Border Grid.Row="2" Grid.Column="1" Classes="value"><SelectableTextBlock Text="{Binding InvertedHex}" /></Border>
-                        <Button Grid.Row="2" Grid.Column="2" Classes="copy" Command="{Binding CopyCommand}" CommandParameter="{Binding InvertedHexCopy}"><Path /></Button>
-                        <Border Grid.Row="2" Grid.Column="3" Classes="value"><SelectableTextBlock Text="{Binding InvertedBin}" /></Border>
-                        <Button Grid.Row="2" Grid.Column="4" Classes="copy" Command="{Binding CopyCommand}" CommandParameter="{Binding InvertedBinPlain}"><Path /></Button>
-                        <Border Grid.Row="2" Grid.Column="5" Classes="value"><SelectableTextBlock Text="{Binding InvertedDec}" /></Border>
-                        <Button Grid.Row="2" Grid.Column="6" Classes="copy" Command="{Binding CopyCommand}" CommandParameter="{Binding InvertedDec}"><Path /></Button>
-
-                        <TextBlock Grid.Row="3" Classes="label" Text="Bytes" />
-                        <Grid Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="6" ColumnDefinitions="Auto,*,Auto,16,Auto,*,Auto">
-                            <TextBlock Classes="label hint" Text="Little-Endian" />
-                            <Border Grid.Column="1" Classes="value"><SelectableTextBlock Text="{Binding BytesLittleEndian}" /></Border>
-                            <Button Grid.Column="2" Classes="copy" Command="{Binding CopyCommand}" CommandParameter="{Binding BytesLittleEndian}"><Path /></Button>
-                            <TextBlock Grid.Column="4" Classes="label hint" Text="Big-Endian" />
-                            <Border Grid.Column="5" Classes="value"><SelectableTextBlock Text="{Binding BytesBigEndian}" /></Border>
-                            <Button Grid.Column="6" Classes="copy" Command="{Binding CopyCommand}" CommandParameter="{Binding BytesBigEndian}"><Path /></Button>
-                        </Grid>
-                    </Grid>
-                </Border>
-
                 <!-- ===== Bit fields ===== -->
                 <Border Classes="card">
                     <StackPanel Spacing="8">
@@ -266,6 +230,43 @@
                         </StackPanel>
                     </StackPanel>
                 </Border>
+
+                <!-- ===== Data ===== -->
+                <Expander Header="Data" IsExpanded="{Binding IsDataExpanded}"
+                          HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch">
+                    <Grid ColumnDefinitions="Auto,*,Auto,2*,Auto,*,Auto" RowDefinitions="Auto,Auto,Auto,Auto"
+                          ColumnSpacing="0" RowSpacing="6">
+                        <TextBlock Grid.Column="1" Classes="header" Text="HEX" HorizontalAlignment="Center" />
+                        <TextBlock Grid.Column="3" Classes="header" Text="BIN" HorizontalAlignment="Center" />
+                        <TextBlock Grid.Column="5" Classes="header" Text="DEC" HorizontalAlignment="Center" />
+
+                        <TextBlock Grid.Row="1" Classes="label" Text="Data" />
+                        <Border Grid.Row="1" Grid.Column="1" Classes="value"><SelectableTextBlock Text="{Binding DataHex}" /></Border>
+                        <Button Grid.Row="1" Grid.Column="2" Classes="copy" Command="{Binding CopyCommand}" CommandParameter="{Binding DataHexCopy}"><Path /></Button>
+                        <Border Grid.Row="1" Grid.Column="3" Classes="value"><SelectableTextBlock Text="{Binding DataBin}" /></Border>
+                        <Button Grid.Row="1" Grid.Column="4" Classes="copy" Command="{Binding CopyCommand}" CommandParameter="{Binding DataBinPlain}"><Path /></Button>
+                        <Border Grid.Row="1" Grid.Column="5" Classes="value"><SelectableTextBlock Text="{Binding DataDec}" /></Border>
+                        <Button Grid.Row="1" Grid.Column="6" Classes="copy" Command="{Binding CopyCommand}" CommandParameter="{Binding DataDec}"><Path /></Button>
+
+                        <TextBlock Grid.Row="2" Classes="label" Text="Inverted Data" />
+                        <Border Grid.Row="2" Grid.Column="1" Classes="value"><SelectableTextBlock Text="{Binding InvertedHex}" /></Border>
+                        <Button Grid.Row="2" Grid.Column="2" Classes="copy" Command="{Binding CopyCommand}" CommandParameter="{Binding InvertedHexCopy}"><Path /></Button>
+                        <Border Grid.Row="2" Grid.Column="3" Classes="value"><SelectableTextBlock Text="{Binding InvertedBin}" /></Border>
+                        <Button Grid.Row="2" Grid.Column="4" Classes="copy" Command="{Binding CopyCommand}" CommandParameter="{Binding InvertedBinPlain}"><Path /></Button>
+                        <Border Grid.Row="2" Grid.Column="5" Classes="value"><SelectableTextBlock Text="{Binding InvertedDec}" /></Border>
+                        <Button Grid.Row="2" Grid.Column="6" Classes="copy" Command="{Binding CopyCommand}" CommandParameter="{Binding InvertedDec}"><Path /></Button>
+
+                        <TextBlock Grid.Row="3" Classes="label" Text="Bytes" />
+                        <Grid Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="6" ColumnDefinitions="Auto,*,Auto,16,Auto,*,Auto">
+                            <TextBlock Classes="label hint" Text="Little-Endian" />
+                            <Border Grid.Column="1" Classes="value"><SelectableTextBlock Text="{Binding BytesLittleEndian}" /></Border>
+                            <Button Grid.Column="2" Classes="copy" Command="{Binding CopyCommand}" CommandParameter="{Binding BytesLittleEndian}"><Path /></Button>
+                            <TextBlock Grid.Column="4" Classes="label hint" Text="Big-Endian" />
+                            <Border Grid.Column="5" Classes="value"><SelectableTextBlock Text="{Binding BytesBigEndian}" /></Border>
+                            <Button Grid.Column="6" Classes="copy" Command="{Binding CopyCommand}" CommandParameter="{Binding BytesBigEndian}"><Path /></Button>
+                        </Grid>
+                    </Grid>
+                </Expander>
 
                 <!-- ===== Dec-Bin-Hex table ===== -->
                 <Expander Header="Dec-Bin-Hex Table" IsExpanded="{Binding IsTableExpanded}"
