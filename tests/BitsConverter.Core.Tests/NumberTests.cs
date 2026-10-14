@@ -15,6 +15,16 @@ public class NumberFormatterTests
         Assert.Equal(expected, NumberFormatter.ToHex(value, width));
 
     [Theory]
+    [InlineData(0xABu, 8, "AB")]
+    [InlineData(0xABu, 16, "00 AB")]
+    [InlineData(0x123456u, 24, "12 34 56")]
+    [InlineData(0xDEADBEEFu, 32, "DE AD BE EF")]
+    [InlineData(0xABCu, 12, "A BC")]
+    [InlineData(0x5u, 3, "5")]
+    public void ToHex_GroupsBytesFromLsb(uint value, int width, string expected) =>
+        Assert.Equal(expected, NumberFormatter.ToHex(value, width, group: true));
+
+    [Theory]
     [InlineData(0xA5u, 8, true, "1010 0101")]
     [InlineData(0x1u, 16, true, "0000 0000 0000 0001")]
     [InlineData(0x5u, 6, true, "00 0101")]

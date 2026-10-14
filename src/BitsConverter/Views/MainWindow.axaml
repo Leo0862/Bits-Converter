@@ -121,7 +121,7 @@
                 <!-- ===== Inputs and operations ===== -->
                 <Border Classes="card">
                     <StackPanel Spacing="10">
-                        <Grid ColumnDefinitions="Auto,150,16,Auto,130,16,Auto,*" RowDefinitions="Auto,Auto">
+                        <Grid ColumnDefinitions="Auto,150,16,Auto,150,16,Auto,*" RowDefinitions="Auto,Auto">
                             <TextBlock Classes="label" Text="DEC" />
                             <ContentControl Grid.Column="1" Content="{Binding DecInput}" />
                             <TextBlock Grid.Column="3" Classes="label" Text="HEX" />
@@ -219,7 +219,7 @@
                                     <ColumnDefinition Width="140" />
                                     <ColumnDefinition Width="80" />
                                     <ColumnDefinition Width="64" />
-                                    <ColumnDefinition Width="120" />
+                                    <ColumnDefinition Width="150" />
                                     <ColumnDefinition Width="140" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
@@ -239,7 +239,7 @@
                                                 <ColumnDefinition Width="140" />
                                                 <ColumnDefinition Width="80" />
                                                 <ColumnDefinition Width="64" />
-                                                <ColumnDefinition Width="120" />
+                                                <ColumnDefinition Width="150" />
                                                 <ColumnDefinition Width="140" />
                                                 <ColumnDefinition Width="*" />
                                             </Grid.ColumnDefinitions>
