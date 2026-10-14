@@ -21,7 +21,8 @@
 | UI | Avalonia 11.3.x，Fluent theme，跟隨系統淺色 / 深色 |
 | MVVM | CommunityToolkit.Mvvm 8.4.x（source generator） |
 | 測試 | xUnit：`BitsConverter.Core` 邏輯測試；Avalonia.Headless 的 ViewModel 測試 |
-| CI | GitHub Actions：build + test；發佈 win-x64 / linux-x64 / osx-x64 / osx-arm64 single-file self-contained 執行檔 |
+| CI | GitHub Actions：build + test；發佈 win-x64 / linux-x64 / osx-x64 / osx-arm64 single-file self-contained 執行檔（裁剪＋壓縮，約 20 MB） |
+| JSON | System.Text.Json source generator（`JsonSerializerContext`），裁剪後仍可正常存取設定與 Preset |
 | 介面語言 | 英文 |
 
 ## 3. 專案結構
@@ -75,12 +76,13 @@ Bits-Converter/
 - 每次輸入即時解析；合法時更新整體數值，其他輸入框與方格同步更新。
 - 格式錯誤或超出範圍：輸入框顯示紅框與錯誤提示，數值不變。
 - 正在編輯的輸入框不被重新格式化，避免游標跳動。
+- 複製按鈕：HEX 複製為 `0x` 開頭且不含空格（如 `0xDEADBEEF`），BIN 複製時不含空格。
 
 顯示區（每個值旁有複製按鈕）：
 
 | 列 | HEX | BIN | DEC |
 |---|---|---|---|
-| Data | 補零到 `W/4` 位 | 每 4 bit 空一格 | 無號 |
+| Data | 補零到 `W/4` 位，每 2 位（1 byte）空一格 | 每 4 bit 空一格 | 無號 |
 | Inverted Data | `~value & mask` | 同上 | 同上 |
 
 Byte 陣列列：

@@ -108,7 +108,7 @@ public sealed partial class NumberInputViewModel : ObservableObject
 
     private string Format(uint value, bool group = true) => Base switch
     {
-        NumberBase.Hex => NumberFormatter.ToHex(value, _width()),
+        NumberBase.Hex => NumberFormatter.ToHex(value, _width(), group),
         NumberBase.Bin => NumberFormatter.ToBin(value, _width(), group),
         _ => NumberFormatter.ToDec(value, _width()),
     };

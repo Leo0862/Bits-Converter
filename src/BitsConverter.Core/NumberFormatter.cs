@@ -5,11 +5,24 @@ namespace BitsConverter.Core;
 
 public static class NumberFormatter
 {
-    /// <summary>Upper-case hex, zero padded to ceil(width / 4) digits.</summary>
-    public static string ToHex(uint value, int width)
+    /// <summary>
+    /// Upper-case hex, zero padded to ceil(width / 4) digits.
+    /// When <paramref name="group"/> is set, a space is inserted every 2 digits (one byte) counted from the LSB.
+    /// </summary>
+    public static string ToHex(uint value, int width, bool group = false)
     {
         var digits = Math.Max(1, (width + 3) / 4);
-        return (value & BitMath.Mask(width)).ToString("X" + digits, CultureInfo.InvariantCulture);
+        var hex = (value & BitMath.Mask(width)).ToString("X" + digits, CultureInfo.InvariantCulture);
+        if (!group || hex.Length <= 2) return hex;
+
+        var sb = new StringBuilder(hex.Length + hex.Length / 2);
+        for (var i = 0; i < hex.Length; i++)
+        {
+            if (i > 0 && (hex.Length - i) % 2 == 0)
+                sb.Append(' ');
+            sb.Append(hex[i]);
+        }
+        return sb.ToString();
     }
 
     public static string ToDec(uint value, int width) =>

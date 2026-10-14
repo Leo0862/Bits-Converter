@@ -104,14 +104,14 @@ public sealed partial class MainWindowViewModel : ObservableObject
     [ObservableProperty]
     private string? _statusText;
 
-    public string DataHex => NumberFormatter.ToHex(_value, Width);
+    public string DataHex => NumberFormatter.ToHex(_value, Width, group: true);
     public string DataBin => NumberFormatter.ToBin(_value, Width);
     public string DataDec => NumberFormatter.ToDec(_value, Width);
-    public string InvertedHex => NumberFormatter.ToHex(BitMath.Invert(_value, Width), Width);
+    public string InvertedHex => NumberFormatter.ToHex(BitMath.Invert(_value, Width), Width, group: true);
     public string InvertedBin => NumberFormatter.ToBin(BitMath.Invert(_value, Width), Width);
     // Copy forms: HEX with a 0x prefix, BIN without the nibble separators, so they paste as literals.
-    public string DataHexCopy => "0x" + DataHex;
-    public string InvertedHexCopy => "0x" + InvertedHex;
+    public string DataHexCopy => "0x" + NumberFormatter.ToHex(_value, Width);
+    public string InvertedHexCopy => "0x" + NumberFormatter.ToHex(BitMath.Invert(_value, Width), Width);
     public string DataBinPlain => NumberFormatter.ToBin(_value, Width, group: false);
     public string InvertedBinPlain => NumberFormatter.ToBin(BitMath.Invert(_value, Width), Width, group: false);
     public string InvertedDec => NumberFormatter.ToDec(BitMath.Invert(_value, Width), Width);

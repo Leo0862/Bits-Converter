@@ -6,7 +6,16 @@
     <ApplicationIcon>Assets\app.ico</ApplicationIcon>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
-    <BuiltInComInteropSupport>true</BuiltInComInteropSupport>
+  </PropertyGroup>
+
+  <!-- Smaller self-contained executables: trim unused code and compress the single-file bundle. -->
+  <PropertyGroup Condition="'$(SelfContained)' == 'true'">
+    <PublishTrimmed>true</PublishTrimmed>
+    <EnableCompressionInSingleFile Condition="'$(PublishSingleFile)' == 'true'">true</EnableCompressionInSingleFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <DebugType>none</DebugType>
   </PropertyGroup>
 
   <ItemGroup>

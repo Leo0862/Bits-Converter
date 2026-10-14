@@ -1,5 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <RootNamespace>BitsConverter.Core</RootNamespace>
+    <!-- Report trim-unsafe code at build time; the app is published trimmed. -->
+    <IsTrimmable>true</IsTrimmable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <DebugType>none</DebugType>
   </PropertyGroup>
 </Project>

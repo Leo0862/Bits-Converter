@@ -25,15 +25,16 @@ public class MainWindowViewModelTests
         Assert.Equal("0x00ff", vm.HexInput.Text); // the box being edited is not rewritten
         Assert.True(Bit(vm, 7).IsSet);
         Assert.False(Bit(vm, 8).IsSet);
-        Assert.Equal("FF00", vm.InvertedHex);
+        Assert.Equal("FF 00", vm.InvertedHex);
         Assert.Equal("FF 00", vm.BytesLittleEndian);
         Assert.Equal("0000000011111111", vm.DataBinPlain);
+        Assert.Equal("00 FF", vm.DataHex);
         Assert.Equal("0x00FF", vm.DataHexCopy);
         Assert.Equal("0xFF00", vm.InvertedHexCopy);
         Assert.Equal("1111111100000000", vm.InvertedBinPlain);
 
         vm.HexInput.Normalize();
-        Assert.Equal("00FF", vm.HexInput.Text);
+        Assert.Equal("00 FF", vm.HexInput.Text);
     }
 
     [AvaloniaFact]
@@ -57,7 +58,7 @@ public class MainWindowViewModelTests
         var vm = Create(32);
         Bit(vm, 31).IsSet = true;
         Assert.Equal(0x80000000u, vm.Value);
-        Assert.Equal("80000000", vm.HexInput.Text);
+        Assert.Equal("80 00 00 00", vm.HexInput.Text);
     }
 
     [AvaloniaFact]
@@ -75,7 +76,7 @@ public class MainWindowViewModelTests
 
         vm.Width = 24;
         Assert.Equal(0x5678u, vm.Value);
-        Assert.Equal("005678", vm.HexInput.Text);
+        Assert.Equal("00 56 78", vm.HexInput.Text);
     }
 
     [AvaloniaFact]
@@ -214,7 +215,7 @@ public class MainWindowViewModelTests
         Assert.True(state.ShowTable);
         Assert.Equal(3, state.ShiftCount);
         Assert.Equal("A", Assert.Single(state.Fields).Name);
-        Assert.Equal("ABC", vm.FieldRows[0].Hex.Text);
+        Assert.Equal("A BC", vm.FieldRows[0].Hex.Text);
     }
 
     [AvaloniaFact]
@@ -237,7 +238,7 @@ public class MainWindowViewModelTests
         var dec = new NumberInputViewModel(NumberBase.Dec, () => 16, _ => { }, copied.Add);
         hex.Display(0x00A5);
         dec.Display(0x00A5);
-        Assert.Equal("00A5", hex.Text);
+        Assert.Equal("00 A5", hex.Text);
 
         hex.CopyCommand.Execute(null);
         dec.CopyCommand.Execute(null);
