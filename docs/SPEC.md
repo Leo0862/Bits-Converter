@@ -160,9 +160,10 @@ Byte 陣列列：
 ### 4.9 儲存
 
 - **自動儲存**：關閉視窗時把位寬、數值、欄位、Expander 狀態寫入設定檔，啟動時讀回。
-  - Windows：`%APPDATA%\BitsConverter\settings.json`
-  - Linux：`~/.config/BitsConverter/settings.json`
-  - macOS：`~/Library/Application Support/BitsConverter/settings.json`（實際以 .NET `SpecialFolder.ApplicationData` 為準）
+  - 位置：執行檔所在資料夾的 `settings.json`（可攜式，搬移資料夾設定會一起帶走）。
+  - 執行檔資料夾不可寫入時（例如放在 `C:\Program Files`），改存到使用者資料夾：
+    Windows `%APPDATA%\BitsConverter\settings.json`、Linux `~/.config/BitsConverter/settings.json`、macOS `~/Library/Application Support/BitsConverter/settings.json`。
+  - 讀取時先找執行檔資料夾，沒有再讀使用者資料夾（相容舊版存放位置）。
 - **Preset**：`Save Preset…` / `Load Preset…` 以 JSON 存取欄位配置與位寬：
 
 ```json

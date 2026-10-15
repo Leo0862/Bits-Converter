@@ -18,7 +18,8 @@ Built with [Avalonia](https://avaloniaui.net/) on .NET 8. Successor of the WPF
   Every value has a copy button.
 - **Bit fields**: split the value into fields such as `[15:10] [9:3] [2:0]`.
   Each field shows its own HEX / DEC / BIN, and editing a field writes it back into the value.
-- **Presets**: save / load field layouts as JSON. The last session (width, value, fields) is restored on start.
+- **Presets**: save / load field layouts as JSON. The last session (width, value, fields) is restored on start
+  from `settings.json` next to the executable (falls back to the per-user app data folder if that folder is read-only).
 - Light / dark theme follows the system.
 
 ## Defining bit fields
